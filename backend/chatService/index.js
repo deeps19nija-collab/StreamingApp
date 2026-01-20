@@ -4,7 +4,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { Server } = require('socket.io');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const PORT = process.env.PORT || 3004;
 const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || 'http://localhost:3000')
@@ -42,7 +43,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(morgan('dev'));
 
-const { connectDB } = require('../common/db');
+const { connectDB } = require('./db');
 const { verifyToken, buildUserContext } = require('./util/auth');
 const { ChatMessage } = require('./models/message.model');
 
