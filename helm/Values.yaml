@@ -1,0 +1,41 @@
+namespace: streaming
+
+mongo:
+  image: mongo:6
+  port: 27017
+  pvc:
+    size: 5Gi
+
+global:
+  mongoUri: mongodb://mongo:27017/streamingapp
+  jwtSecret: changeme
+  clientUrls: http://localhost:3000
+  aws:
+    region: eu-west-2
+    accessKeyId: ""
+    secretAccessKey: ""
+    s3Bucket: ""
+    cdnUrl: ""
+
+services:
+  auth:
+    image: deepali-streaming-app/auth-service:latest
+    port: 3001
+
+  streaming:
+    image: deepali-streaming-app/streaming-service:latest
+    port: 3002
+    publicUrl: http://localhost:3002
+
+  admin:
+    image: deepali-streaming-app/admin-service:latest
+    port: 3003
+
+  chat:
+    image: deepali-streaming-app/chat-service:latest
+    port: 3004
+
+frontend:
+  image: deepali-streaming-app/frontend:latest
+  port: 80
+  serviceType: LoadBalancer

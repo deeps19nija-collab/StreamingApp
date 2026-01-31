@@ -1,0 +1,46 @@
+{{- range $name, $svc := .Values.services }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: {{ $svc.image }}
+          ports:
+            - containerPort: {{ $svc.port }}
+          env:
+            - name: PORT
+              value: "{{ $svc.port }}"
+            - name: MONGO_URI
+              value: {{ $.Values.global.mongoUri }}
+            - name: JWT_SECRET
+              value: {{ $.Values.global.jwtSecret }}
+            - name: CLIENT_URLS
+              value: {{ $.Values.global.clientUrls }}
+            - name: AWS_REGION
+              value: {{ $.Values.global.aws.region }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ $.Values.global.aws.accessKeyId | quote }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ $.Values.global.aws.secretAccessKey | quote }}
+            - name: AWS_S3_BUCKET
+              value: {{ $.Values.global.aws.s3Bucket | quote }}
+            - name: AWS_CDN_URL
+              value: {{ $.Values.global.aws.cdnUrl | quote }}
+            {{- if $svc.publicUrl }}
+            - name: STREAMING_PUBLIC_URL
+              value: {{ $svc.publicUrl }}
+            {{- end }}
+---
+{{- end }}
