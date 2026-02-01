@@ -32,6 +32,7 @@ Do the same steps for rest of the services and push the images to ECR repos
 <img width="1796" height="913" alt="image" src="https://github.com/user-attachments/assets/22e93fdb-e599-4135-b165-01f647942519" />
 
 **Create helm charts**
+https://github.com/deeps19nija-collab/StreamingApp/tree/main/helm
 
 
 
