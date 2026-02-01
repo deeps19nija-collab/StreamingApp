@@ -135,4 +135,7 @@ Automated tests are not yet included. Recommended smoke checks:
 
 ## License
 
+## This project uses helm to deploy the application to EKS cluster.
+Complete flow in link 
+
 MIT © StreamFlix Team
